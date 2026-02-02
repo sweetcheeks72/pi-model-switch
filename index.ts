@@ -29,8 +29,8 @@ const extension: ExtensionFactory = (pi) => {
 		description:
 			"List, search, or switch models. Supports aliases defined in aliases.json (e.g. 'cheap', 'coding'). Use when the user asks to change models or when you need a model with different capabilities (reasoning, vision, cost, context window).",
 		parameters: Type.Object({
-			action: Type.Union([Type.Literal("list"), Type.Literal("search"), Type.Literal("switch")], {
-				description: "list: show all available models. search: filter models by query. switch: change to a different model.",
+			action: Type.String({
+				description: "Action to perform: 'list' (show all models), 'search' (filter by query), or 'switch' (change model)",
 			}),
 			search: Type.Optional(
 				Type.String({
@@ -46,7 +46,7 @@ const extension: ExtensionFactory = (pi) => {
 			),
 		}),
 
-		async execute(toolCallId, params, onUpdate, ctx) {
+		async execute(_toolCallId, params, _signal, _onUpdate, ctx) {
 			let models = ctx.modelRegistry.getAvailable();
 			const currentModel = ctx.model;
 

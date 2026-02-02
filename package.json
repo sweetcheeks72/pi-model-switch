@@ -1,6 +1,6 @@
 {
   "name": "pi-model-switch",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Model switching extension for pi coding agent",
   "keywords": ["pi-package"],
   "license": "MIT",
