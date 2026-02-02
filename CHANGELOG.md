@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+## [0.1.2] - 2026-02-01
+
+### Changed
+- Added package keywords for npm discoverability
+
 ## [0.1.1] - 2026-02-01
 
 ### Fixed
