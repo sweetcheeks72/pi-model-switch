@@ -118,6 +118,44 @@ const extension: ExtensionFactory = (pi) => {
 				}
 
 				const search = params.search.toLowerCase();
+
+				// Check aliases first
+				const aliasKey = Object.keys(aliases).find((k) => k.toLowerCase() === search);
+				if (aliasKey) {
+					const aliasValue = aliases[aliasKey];
+					const candidates = Array.isArray(aliasValue) ? aliasValue : [aliasValue];
+					const resolvedModels = candidates.map((c) => {
+						const [provider, ...idParts] = c.split("/");
+						const id = idParts.join("/");
+						return models.find(
+							(m) => m.provider.toLowerCase() === provider.toLowerCase() && m.id.toLowerCase() === id.toLowerCase()
+						);
+					}).filter(Boolean);
+					if (resolvedModels.length > 0) {
+						const lines = resolvedModels.map((m: any) => {
+							const current = currentModel && m.provider === currentModel.provider && m.id === currentModel.id;
+							const marker = current ? " (current)" : "";
+							const capabilities = [
+								m.reasoning ? "reasoning" : null,
+								m.input.includes("image") ? "vision" : null,
+							]
+								.filter(Boolean)
+								.join(", ");
+							const capStr = capabilities ? ` [${capabilities}]` : "";
+							const costStr = `$${m.cost.input.toFixed(2)}/$${m.cost.output.toFixed(2)} per 1M tokens (in/out)`;
+							return `${m.provider}/${m.id}${marker}${capStr}\n  ${m.name} | ctx: ${m.contextWindow.toLocaleString()} | max: ${m.maxTokens.toLocaleString()}\n  ${costStr}`;
+						});
+						return {
+							content: [
+								{
+									type: "text",
+									text: `Alias "${aliasKey}" resolves to:\n\n${lines.join("\n\n")}`,
+								},
+							],
+						};
+					}
+				}
+
 				const matches = models.filter(
 					(m) =>
 						m.id.toLowerCase().includes(search) ||
