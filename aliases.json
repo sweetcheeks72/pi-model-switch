@@ -1,0 +1,7 @@
+{
+  "cheap": "anthropic/claude-haiku-4-5",
+  "fast": "anthropic/claude-haiku-4-5",
+  "smart": "anthropic/claude-opus-4-6",
+  "coding": "anthropic/claude-sonnet-4-6",
+  "reasoning": "anthropic/claude-opus-4-6"
+}
