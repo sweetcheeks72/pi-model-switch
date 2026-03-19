@@ -159,7 +159,7 @@ const extension: ExtensionFactory = (pi) => {
 				const matches = models.filter(
 					(m) =>
 						m.id.toLowerCase().includes(search) ||
-						m.name.toLowerCase().includes(search) ||
+						(m.name ?? "").toLowerCase().includes(search) ||
 						m.provider.toLowerCase().includes(search),
 				);
 
@@ -261,7 +261,7 @@ const extension: ExtensionFactory = (pi) => {
 					const candidates = models.filter(
 						(m) =>
 							m.id.toLowerCase().includes(search) ||
-							m.name.toLowerCase().includes(search) ||
+							(m.name ?? "").toLowerCase().includes(search) ||
 							m.provider.toLowerCase().includes(search),
 					);
 
